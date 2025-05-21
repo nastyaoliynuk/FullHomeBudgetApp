@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Борги</title></head>
+<body>
+<div class="container mt-4">
+    <h2>Список боргів</h2>
+    <a class="btn btn-primary mb-3" href="/debts/new">Додати борг</a>
+    <table class="table table-striped">
+        <thead><tr><th>Категорія</th><th>Отримано</th><th>До повернення</th><th>Періодичність</th></tr></thead>
+        <tbody><tr th:each="debt : ${debts}">
+            <td th:text="${debt.category}"></td>
+            <td th:text="${debt.receivedAmount}"></td>
+            <td th:text="${debt.totalReturnAmount}"></td>
+            <td th:text="${debt.paymentFrequency}"></td>
+        </tr></tbody>
+    </table>
+</div></body></html>

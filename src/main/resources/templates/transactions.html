@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Транзакції</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #0d6efd, #66b2ff);
+            color: white;
+        }
+        .btn-outline-light:hover {
+            background-color: #e2e6ea;
+        }
+        .table th {
+            background-color: #f1f3f5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">📋 Список транзакцій</h4>
+            <div>
+                <a href="/" class="btn btn-outline-light btn-sm me-2">🏠 На головну</a>
+                <a href="/transactions/new" class="btn btn-light btn-sm">➕ Додати</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Дата</th>
+                    <th>Категорія</th>
+                    <th>Сума</th>
+                    <th>Тип</th>
+                    <th>Коментар</th>
+                    <th>Дії</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tx, iterStat : ${transactions}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${tx.date}"></td>
+                    <td th:text="${tx.category}"></td>
+                    <td th:text="${tx.amount} + ' грн'"></td>
+                    <td>
+                        <span th:classappend="${tx.type == 'income'} ? 'text-success' : 'text-danger'"
+                              th:text="${tx.type == 'income'} ? 'Дохід' : 'Витрата'"></span>
+                    </td>
+                    <td th:text="${tx.comment}"></td>
+                    <td>
+                        <a th:href="@{'/transactions/edit/' + ${tx.id}}" class="btn btn-sm btn-outline-warning">✏️</a>
+                        <form th:action="@{'/transactions/delete/' + ${tx.id}}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Ви дійсно хочете видалити цю транзакцію?');">
+                                🗑️
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
